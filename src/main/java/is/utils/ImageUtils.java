@@ -1,12 +1,14 @@
 package is.utils;
 
+import is.objects.Image;
+import is.objects.ImageMetaData;
+import java.awt.image.BufferedImage;
+import org.apache.commons.imaging.Imaging;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class ImageUtils {
 
@@ -14,10 +16,38 @@ public class ImageUtils {
 
   private ImageUtils() {}
 
+  public static boolean sameSource(Image image01, Image image02) {
+    boolean sameSource;
+    try {
+      sameSource = ImageMetaDataUtils.isDuplicated(image01, image02, ImageMetaData.ATTRIBUTE_MAKE);
+      sameSource = sameSource && ImageMetaDataUtils.isDuplicated(image01, image02, ImageMetaData.ATTRIBUTE_MODEL);
+      sameSource = sameSource && ImageMetaDataUtils.isDuplicated(image01, image02, ImageMetaData.ATTRIBUTE_DATETIME);
+      sameSource = sameSource && ImageMetaDataUtils.isDuplicated(image01, image02, ImageMetaData.ATTRIBUTE_DATETIME_DIGITIZED);
+    } catch (Exception e) {
+      sameSource = Boolean.FALSE;
+      LOG.error("Exception occurred : {}", e.getMessage());
+    }
+    return sameSource;
+  }
+
+  public static boolean isCustomRendered(Image image) {
+    boolean isCustomRendered = Boolean.FALSE;
+    try {
+      String value = image.getImageMetaData().getAttribute(ImageMetaData.ATTRIBUTE_CUSTOM_RENDERED);
+      if("1".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value)) {
+        isCustomRendered = Boolean.TRUE;
+      }
+    } catch (Exception e) {
+      LOG.error("Exception occurred : {}", e.getMessage());
+    }
+    return isCustomRendered;
+  }
+
+
   public static double getDifferencePercent(File imageFile01, File imageFile02) {
     try {
-      BufferedImage image01 = ImageIO.read(imageFile01);
-      BufferedImage image02 = ImageIO.read(imageFile02);
+      BufferedImage image01 = Imaging.getBufferedImage(imageFile01);
+      BufferedImage image02 = Imaging.getBufferedImage(imageFile02);
 
       int width01 = image01.getWidth();
       int height01 = image01.getHeight();
@@ -39,8 +69,8 @@ public class ImageUtils {
         long maxDiff = 3L * 255 * width01 * height01;
         return 100.0 * diff / maxDiff;
       }
-    } catch (IOException ioe) {
-      LOG.error("Exception occurred on IO: {}", ioe.getMessage());
+    } catch (Exception ioe) {
+      LOG.error("Exception occurred : {}", ioe.getMessage());
     }
     return -1;
   }
