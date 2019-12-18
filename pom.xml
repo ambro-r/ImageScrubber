@@ -17,6 +17,8 @@
     <commons.io.version>2.6</commons.io.version>
     <commons.collections4.version>4.0</commons.collections4.version>
     <commons.lang3.version>3.9</commons.lang3.version>
+    <commons.imaging.version>1.0-alpha1</commons.imaging.version>
+    <junit.jupiter.engine.version>5.1.0</junit.jupiter.engine.version>
     <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
     <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,14 +86,26 @@
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang3.version}</version>
     </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-imaging -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-imaging</artifactId>
-      <version>1.0-alpha1</version>
+      <version>${commons.imaging.version}</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit.jupiter.engine.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Need this to run tests individually -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
