@@ -15,7 +15,7 @@ public class ImageScrubber {
 
   public void scrub() {
     PotentialDeletionWorker potentialDeletionWorker = new PotentialDeletionWorker();
-    potentialDeletionWorker.work(        "C:\\Repositories\\Sandpit\\ImageScrubber\\src\\test\\resources\\samples");
+    potentialDeletionWorker.work("C:\\temp\\images");
   }
 
 }

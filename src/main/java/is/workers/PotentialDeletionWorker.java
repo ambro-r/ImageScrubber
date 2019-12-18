@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,8 +62,38 @@ public class PotentialDeletionWorker {
     return imageList;
   }
 
+  private String getTempDirectory(String directory) {
+    String tempDirectory = directory;
+    if(!directory.endsWith(File.separator)) {
+      tempDirectory += File.separator;
+    }
+    tempDirectory += "potentialForDeletion";
+    LOG.debug("Temporary directory generated: {}", tempDirectory);
+    return tempDirectory;
+  }
+
+
   public void work(String directory) {
-    List<Image> imageList = getImages(directory);
+    int counter = 0;
+    File tempDirectory = new File(getTempDirectory(directory));
+    try {
+      List<Image> imageList = getImages(directory);
+
+      if(!tempDirectory.exists()) {
+        tempDirectory.mkdir();
+      }
+      for(Image image : imageList) {
+        if(image.isFlaggedForDeletion()) {
+          File destination = new File(tempDirectory + File.separator + image.getFileName());
+          LOG.debug("Moving image {} to {}.", image.getFileName(), destination.getAbsolutePath());
+          FileUtils.moveFile(image.getImageFile(), destination);
+          counter ++;
+        }
+      }
+    } catch (Exception e) {
+      LOG.error(e.getMessage());
+    }
+    LOG.info("Moved {} images to {}.", counter, tempDirectory.getAbsolutePath());
   }
 
 }

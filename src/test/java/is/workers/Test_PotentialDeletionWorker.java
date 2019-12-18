@@ -118,4 +118,18 @@ public class Test_PotentialDeletionWorker {
     assertEquals(2, imageList.size() - flaggedForDeletion);
   }
 
+  @Test
+  @Order(4)
+  public void test_getTempDirectory() throws Exception {
+    Class[] argClasses = {String.class};
+    Method method = PotentialDeletionWorker.class.getDeclaredMethod("potentialForDeletion", argClasses);
+    method.setAccessible(true);
+
+    Object[] argObjects = { image01.getImageFile().getParent() };
+    String tempDirectory = (String) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
+
+    String expected = image01.getImageFile().getParent() + File.separator + "flaggedfordeletion";
+    assertEquals(expected, tempDirectory);
+  }
+
 }
