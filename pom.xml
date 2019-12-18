@@ -18,7 +18,7 @@
     <commons.collections4.version>4.0</commons.collections4.version>
     <commons.lang3.version>3.9</commons.lang3.version>
     <commons.imaging.version>1.0-alpha1</commons.imaging.version>
-    <junit.jupiter.engine.version>5.1.0</junit.jupiter.engine.version>
+    <junit.jupiter.engine.version>5.4.0</junit.jupiter.engine.version>
     <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
     <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,11 +99,17 @@
       <version>${junit.jupiter.engine.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- Need this to run tests individually -->
+    <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-commons -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-commons</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher -->
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
-      <version>1.0.0</version>
+      <version>1.4.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

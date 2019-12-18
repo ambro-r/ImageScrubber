@@ -3,6 +3,7 @@ package is.objects;
 import is.utils.ImageMetaDataUtils;
 import java.io.File;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -11,6 +12,8 @@ public class Image {
   @Getter private ImageMetaData imageMetaData;
 
   @Getter private File imageFile;
+
+  @Getter @Setter boolean flaggedForDeletion = Boolean.FALSE;
 
   private Image() {}
 
@@ -53,6 +56,17 @@ public class Image {
       value  = imageMetaData.getAttribute(ImageMetaData.ATTRIBUTE_RELATED_IMAGE_WIDTH);
     }
     return Integer.valueOf(value);
+  }
+
+  @Override
+  public String toString() {
+    return new StringBuilder("Image [")
+        .append("FileName=").append(getFileName())
+        .append(", FlaggedForDeletion=").append(isFlaggedForDeletion())
+        .append(", DateTime=").append(getDateTime())
+        .append(", Orientation=").append(getOrientation())
+        .append("]")
+        .toString();
   }
 
 }

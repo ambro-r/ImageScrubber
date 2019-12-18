@@ -3,18 +3,20 @@ package is.workers;
 import static org.junit.jupiter.api.Assertions.*;
 
 import is.objects.Image;
-import is.utils.ImageUtils;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.Method;
-import org.apache.commons.imaging.Imaging;
+import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestMethodOrder;
 
 @TestInstance(Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Test Potential Deletion Worker")
 public class Test_PotentialDeletionWorker {
 
@@ -41,6 +43,7 @@ public class Test_PotentialDeletionWorker {
   }
 
   @Test
+  @Order(1)
   public void test_isPotentialDeletion() throws Exception{
     Class[] argClasses = {Image.class, Image.class};
     Method method = PotentialDeletionWorker.class.getDeclaredMethod("isPotentialDeletion", argClasses);
@@ -57,6 +60,10 @@ public class Test_PotentialDeletionWorker {
     argObjects = new Object[]{ image03, image02 };
     isPotential = (boolean) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
     assertFalse(isPotential);
+
+    argObjects = new Object[]{ image01, image04 };
+    isPotential = (boolean) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
+    assertTrue(isPotential);
 
     argObjects = new Object[]{ image01, image05 };
     isPotential = (boolean) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
@@ -77,6 +84,38 @@ public class Test_PotentialDeletionWorker {
     argObjects = new Object[]{ image02, image06 };
     isPotential = (boolean) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
     assertFalse(isPotential);
+  }
+
+  @Test
+  @Order(2)
+  public void test_getImagesInDirectory() throws Exception {
+    Class[] argClasses = {String.class};
+    Method method = PotentialDeletionWorker.class.getDeclaredMethod("getImagesInDirectory", argClasses);
+    method.setAccessible(true);
+
+    Object[] argObjects = { image01.getImageFile().getParent() };
+    List<Image> imageList = (List<Image>) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
+    assertEquals(8, imageList.size());
+  }
+
+  @Test
+  @Order(3)
+  public void test_getImages() throws Exception {
+    Class[] argClasses = {String.class};
+    Method method = PotentialDeletionWorker.class.getDeclaredMethod("getImages", argClasses);
+    method.setAccessible(true);
+
+    Object[] argObjects = { image01.getImageFile().getParent() };
+    List<Image> imageList = (List<Image>) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
+    assertEquals(8, imageList.size());
+
+    int flaggedForDeletion = 0;
+    for(Image image : imageList) {
+      if(image.isFlaggedForDeletion()) flaggedForDeletion ++;
+    }
+
+    assertEquals(6, flaggedForDeletion);
+    assertEquals(2, imageList.size() - flaggedForDeletion);
   }
 
 }
