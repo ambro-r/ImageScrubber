@@ -24,6 +24,11 @@ public class Test_Image {
   }
 
   @Test
+  public void test_getDateTime() {
+    assertEquals("2016:06:07 14:41:39", image01.getDateTime());
+  }
+
+  @Test
   public void test_getOrientation() {
     assertEquals(1, image01.getOrientation());
     assertEquals(8, image02.getOrientation());
@@ -33,6 +38,16 @@ public class Test_Image {
   public void test_getLength() {
     assertEquals(3888, image01.getLength());
     assertEquals(3888, image02.getLength());
+  }
+
+  @Test
+  public void test_getMake() {
+    assertEquals("Canon", image01.getMake());
+  }
+
+  @Test
+  public void test_getModel() {
+    assertEquals("Canon PowerShot SX710 HS", image01.getModel());
   }
 
   @Test

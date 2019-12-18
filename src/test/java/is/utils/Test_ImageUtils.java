@@ -1,20 +1,19 @@
 package is.utils;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import is.objects.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Vector;
 import org.apache.commons.imaging.Imaging;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @DisplayName("Test Image Utilities")
@@ -45,7 +44,7 @@ public class Test_ImageUtils {
   }
 
   @Test
-  public void rotate() throws Exception{
+  public void test_rotate() throws Exception{
     Class[] argClasses = {Image.class};
     Method method = ImageUtils.class.getDeclaredMethod("rotate", argClasses);
     method.setAccessible(true);

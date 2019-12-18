@@ -23,12 +23,24 @@ public class Image {
     return imageFile.getName();
   }
 
+  public String getDateTime() {
+    return imageMetaData.getAttribute(ImageMetaData.ATTRIBUTE_DATETIME);
+  }
+
   public int getLength() {
     String value = imageMetaData.getAttribute(ImageMetaData.ATTRIBUTE_EXIF_IMAGE_LENGTH);
     if(StringUtils.isEmpty(value)) {
       value  = imageMetaData.getAttribute(ImageMetaData.ATTRIBUTE_RELATED_IMAGE_LENGTH);
     }
     return Integer.valueOf(value);
+  }
+
+  public String getMake() {
+    return imageMetaData.getAttribute(ImageMetaData.ATTRIBUTE_MAKE);
+  }
+
+  public String getModel() {
+    return imageMetaData.getAttribute(ImageMetaData.ATTRIBUTE_MODEL);
   }
 
   public int getOrientation() {

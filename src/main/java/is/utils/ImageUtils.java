@@ -8,7 +8,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import org.apache.commons.imaging.ImageFormat;
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.Imaging;
 
@@ -32,6 +31,7 @@ public class ImageUtils {
       sameSource = Boolean.FALSE;
       LOG.error("Exception occurred : {}", e.getMessage());
     }
+    LOG.debug("Same source status for {} & {} : {}.", image01.getFileName(), image02.getFileName(), sameSource);
     return sameSource;
   }
 
@@ -45,6 +45,7 @@ public class ImageUtils {
     } catch (Exception e) {
       LOG.error("Exception occurred : {}", e.getMessage());
     }
+    LOG.debug("Custom rendered status of {}: {}.", image.getFileName(), isCustomRendered);
     return isCustomRendered;
   }
 
@@ -106,11 +107,11 @@ public class ImageUtils {
 
       int width01 = bufferedImage01.getWidth();
       int height01 = bufferedImage01.getHeight();
-      LOG.debug("{}: width = {}; height = {}.", image01.getFileName(), width01, height01);
+      LOG.trace("{}: width = {}; height = {}.", image01.getFileName(), width01, height01);
 
       int width02 = bufferedImage02.getWidth();
       int height02 = bufferedImage02.getHeight();
-      LOG.debug("{}: width = {}; height = {}.", image02.getFileName(), width02, height02);
+      LOG.trace("{}: width = {}; height = {}.", image02.getFileName(), width02, height02);
 
       if (width01 != width02 || height01 != height02) {
         LOG.debug("Images {} and {} do not have the same dimensions", image01.getFileName(), image02.getFileName());

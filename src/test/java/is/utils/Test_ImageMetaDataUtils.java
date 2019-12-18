@@ -1,5 +1,7 @@
 package is.utils;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import is.objects.Image;
 import is.objects.ImageMetaData;
 import java.io.File;
@@ -7,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Test Image MetaData Utilities")
 public class Test_ImageMetaDataUtils {
