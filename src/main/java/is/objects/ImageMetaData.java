@@ -13,6 +13,11 @@ public class ImageMetaData {
   public static String ATTRIBUTE_MAKE = "Make";
   public static String ATTRIBUTE_MODEL = "Model";
   public static String ATTRIBUTE_CUSTOM_RENDERED = "CustomRendered";
+  public static String ATTRIBUTE_ORIENTATION = "Orientation";
+  public static String ATTRIBUTE_EXIF_IMAGE_WIDTH = "ExifImageWidth";
+  public static String ATTRIBUTE_EXIF_IMAGE_LENGTH = "ExifImageLength";
+  public static String ATTRIBUTE_RELATED_IMAGE_LENGTH = "RelatedImageLength";
+  public static String ATTRIBUTE_RELATED_IMAGE_WIDTH = "RelatedImageWidth";
 
   @Getter @Setter private HashMap<String, String> attributes = new HashMap<>();
 
@@ -29,7 +34,11 @@ public class ImageMetaData {
   }
 
   public String getAttribute(String key) {
-    return attributes.get(key);
+    String value = "";
+    if (attributes.containsKey(key)) {
+      value = attributes.get(key);
+    }
+    return value;
   }
 
   @Override
