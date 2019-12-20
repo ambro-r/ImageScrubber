@@ -22,8 +22,7 @@
   </Appenders>
 
   <Loggers>
-    <Logger name="is" level="debug" additivity="false">
-      <!-- <AppenderRef ref="LogToRollingFile"/> -->
+    <Logger name="is" level="info" additivity="false">
       <AppenderRef ref="LogToConsole"/>
     </Logger>
     <Root level="debug">

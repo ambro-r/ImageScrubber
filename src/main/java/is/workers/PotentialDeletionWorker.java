@@ -49,7 +49,7 @@ public class PotentialDeletionWorker {
         imageList.add(new Image(file));
       }
     }
-    LOG.debug("{} image files found in directory {}", imageList.size(), directory);
+    LOG.info("{} image files found in directory {}", imageList.size(), directory);
     return imageList;
   }
 
