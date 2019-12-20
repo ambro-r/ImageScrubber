@@ -31,7 +31,7 @@ public class ImageUtils {
       sameSource = Boolean.FALSE;
       LOG.error("Exception occurred : {}", e.getMessage());
     }
-    LOG.debug("Same source status for {} & {} : {}.", image01.getFileName(), image02.getFileName(), sameSource);
+    LOG.debug("Same source status for {} & {} : {}.", image01.getFileName(), image02.getFileName(), String.valueOf(sameSource).toUpperCase());
     return sameSource;
   }
 
@@ -45,7 +45,7 @@ public class ImageUtils {
     } catch (Exception e) {
       LOG.error("Exception occurred : {}", e.getMessage());
     }
-    LOG.debug("Custom rendered status of {}: {}.", image.getFileName(), isCustomRendered);
+    LOG.debug("Custom rendered status of {}: {}.", image.getFileName(), String.valueOf(isCustomRendered).toUpperCase());
     return isCustomRendered;
   }
 

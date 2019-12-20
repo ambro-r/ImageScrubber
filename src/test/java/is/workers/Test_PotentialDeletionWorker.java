@@ -44,9 +44,9 @@ public class Test_PotentialDeletionWorker {
 
   @Test
   @Order(1)
-  public void test_isPotentialDeletion() throws Exception{
+  public void test_isSameSourceDeletion() throws Exception{
     Class[] argClasses = {Image.class, Image.class};
-    Method method = PotentialDeletionWorker.class.getDeclaredMethod("isPotentialDeletion", argClasses);
+    Method method = PotentialDeletionWorker.class.getDeclaredMethod("isSameSourceDeletion", argClasses);
     method.setAccessible(true);
 
     Object[] argObjects = { image01, image02 };
@@ -95,7 +95,7 @@ public class Test_PotentialDeletionWorker {
 
     Object[] argObjects = { image01.getImageFile().getParent() };
     List<Image> imageList = (List<Image>) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
-    assertEquals(8, imageList.size());
+    assertEquals(17, imageList.size());
   }
 
   @Test
@@ -107,28 +107,28 @@ public class Test_PotentialDeletionWorker {
 
     Object[] argObjects = { image01.getImageFile().getParent() };
     List<Image> imageList = (List<Image>) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
-    assertEquals(8, imageList.size());
+    assertEquals(17, imageList.size());
 
     int flaggedForDeletion = 0;
     for(Image image : imageList) {
       if(image.isFlaggedForDeletion()) flaggedForDeletion ++;
     }
 
-    assertEquals(6, flaggedForDeletion);
-    assertEquals(2, imageList.size() - flaggedForDeletion);
+    assertEquals(13, flaggedForDeletion);
+    assertEquals(4, imageList.size() - flaggedForDeletion);
   }
 
   @Test
   @Order(4)
   public void test_getTempDirectory() throws Exception {
     Class[] argClasses = {String.class};
-    Method method = PotentialDeletionWorker.class.getDeclaredMethod("potentialForDeletion", argClasses);
+    Method method = PotentialDeletionWorker.class.getDeclaredMethod("getTempDirectory", argClasses);
     method.setAccessible(true);
 
     Object[] argObjects = { image01.getImageFile().getParent() };
     String tempDirectory = (String) method.invoke(PotentialDeletionWorker.class.newInstance(), argObjects);
 
-    String expected = image01.getImageFile().getParent() + File.separator + "flaggedfordeletion";
+    String expected = image01.getImageFile().getParent() + File.separator + "potentialForDeletion";
     assertEquals(expected, tempDirectory);
   }
 

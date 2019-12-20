@@ -14,24 +14,29 @@ public class PotentialDeletionWorker {
 
   private static final Logger LOG = LoggerFactory.getLogger(PotentialDeletionWorker.class);
 
-  static final String[] EXTENSIONS = { "gif", "png", "bmp", "jpg", "jpeg" };
+  private static final String[] EXTENSIONS = { "gif", "png", "bmp", "jpg", "jpeg" };
+  private static final int DUPLICATE_PERCENTAGE = 25;
+
 
   public PotentialDeletionWorker() {}
 
-  private boolean isPotentialDeletion(Image original, Image candidate) {
+  private boolean isSameSourceDeletion(Image original, Image candidate) {
     boolean deletionPotential = Boolean.FALSE;
     if(ImageUtils.sameSource(original, candidate)) {
-      if(ImageUtils.isCustomRendered(original) && ImageUtils.isCustomRendered(candidate)) {
+      boolean isOriginalCustomRendered = ImageUtils.isCustomRendered(original);
+      boolean isCandidateCustomRendered = ImageUtils.isCustomRendered(candidate);
+
+      if(!isOriginalCustomRendered && isCandidateCustomRendered) {
+        deletionPotential = Boolean.TRUE;
+      } else if(isOriginalCustomRendered && isCandidateCustomRendered) {
         deletionPotential = original.getFileName().compareTo(candidate.getFileName()) <= 0;
       } else {
-        deletionPotential = ImageUtils.isCustomRendered(candidate);
+        double difference = ImageUtils.getDifferencePercent(original, candidate);
+        deletionPotential = difference <= DUPLICATE_PERCENTAGE;
       }
+
     }
-    if(!deletionPotential) {
-      double difference = ImageUtils.getDifferencePercent(original, candidate);
-      deletionPotential = difference <= 20;
-    }
-    LOG.debug("Deletion potential of {} in relation to {}: {}", candidate.getFileName(), original.getFileName(), deletionPotential);
+    LOG.debug("Same source deletion status of original={} and candidate={}: {}", original.getFileName(), candidate.getFileName(), String.valueOf(deletionPotential).toUpperCase());
     return deletionPotential;
   }
 
@@ -55,7 +60,7 @@ public class PotentialDeletionWorker {
       for(int j = i + 1; j < imageList.size(); j++) {
         Image candidate = imageList.get(j);
         if (!candidate.isFlaggedForDeletion()) {
-          candidate.setFlaggedForDeletion(isPotentialDeletion(original, candidate));
+          candidate.setFlaggedForDeletion(isSameSourceDeletion(original, candidate));
         }
       }
     }
